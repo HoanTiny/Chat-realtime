@@ -1,9 +1,10 @@
-import { Button, Col, Flex, Row, Form, Input, Space } from 'antd'
+import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons'
+import { Button, Col, Flex, Form, Input, Row } from 'antd'
 import Title from 'antd/es/typography/Title'
 import React from 'react'
 import imgaeAnt from '~/assets/img/LoginArt.png'
 import logoStyles from './Login.module.scss'
-import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons'
+import { FaceBookIcon, GoogleIcon } from '../Icon'
 const Login: React.FC = () => {
   const [form] = Form.useForm()
   return (
@@ -25,36 +26,81 @@ const Login: React.FC = () => {
                   Today is a new day. It's your day. You shape it. Sign in to start managing your projects.
                 </span>
 
-                <Form form={form} name='control-hooks' style={{ maxWidth: 600 }}>
-                  <Form.Item name='username' rules={[{ required: true }]}>
-                    <Input />
+                <Form form={form} layout='vertical' autoComplete='off' style={{ marginTop: '48px' }}>
+                  <Form.Item name='Name' label='Name'>
+                    <Input size='large' placeholder='Name' />
                   </Form.Item>
-                  <Form.Item name='password' rules={[{ required: true }]}>
+                  <Form.Item name='Password' label='Password'>
                     <Input.Password
-                      placeholder='input password'
+                      size='large'
+                      placeholder='Password'
                       iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
                     />
                   </Form.Item>
-                  <Form.Item>
-                    <Space>
-                      <Button type='primary' htmlType='submit'>
-                        Submit
-                      </Button>
-                    </Space>
-                  </Form.Item>
+
+                  <Button
+                    size='large'
+                    type='primary'
+                    htmlType='submit'
+                    style={{
+                      display: 'flex',
+                      padding: '16px 0px',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      alignSelf: 'stretch',
+                      width: '100%',
+                      borderRadius: '10px',
+                      background: '#162D3A'
+                    }}
+                  >
+                    Submit
+                  </Button>
                 </Form>
               </Col>
             </Row>
-            <Row>
+
+            <Row
+              style={{
+                width: '338px'
+              }}
+            >
+              <div className={logoStyles['login-or']}>
+                <div></div>
+                Or
+                <div></div>
+              </div>
               <Col span={24}>
-                <Button
-                  type='primary'
-                  size='large'
-                  href='/auth/google'
-                  style={{ background: '#DB4437', borderColor: '#DB4437' }}
-                >
-                  Login with Google
-                </Button>
+                <Flex vertical style={{ gap: '16px' }}>
+                  <Button
+                    type='primary'
+                    size='large'
+                    href='/auth/google'
+                    style={{
+                      background: '#F3F9FA',
+                      borderColor: '#F3F9FA',
+                      color: '#000',
+                      borderRadius: '12px',
+                      height: '40px'
+                    }}
+                  >
+                    <GoogleIcon /> Login with Google
+                  </Button>
+                  <Button
+                    type='primary'
+                    size='large'
+                    href='/auth/google'
+                    style={{
+                      background: '#F3F9FA',
+                      borderColor: '#F3F9FA',
+                      color: '#000',
+                      borderRadius: '12px',
+                      height: '40px'
+                    }}
+                  >
+                    <FaceBookIcon />
+                    Login with FaceBook
+                  </Button>
+                </Flex>
               </Col>
             </Row>
           </Flex>
