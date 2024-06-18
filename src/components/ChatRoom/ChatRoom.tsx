@@ -10,10 +10,10 @@ const ChatRoom: React.FC = () => {
         minHeight: '100vh'
       }}
     >
-      <Col span={6}>
+      <Col xs={{ span: 5 }} lg={{ span: 6 }}>
         <Sidebar />
       </Col>
-      <Col span={18}>
+      <Col xs={{ span: 5 }} lg={{ span: 18 }}>
         <ChatWindow />
       </Col>
     </Row>

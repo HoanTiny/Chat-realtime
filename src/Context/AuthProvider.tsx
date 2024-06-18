@@ -40,6 +40,8 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setIsLoading(false)
         navigate('/')
       } else {
+        setIsLoading(false)
+
         navigate('/login')
         // User is signed out
         // ...

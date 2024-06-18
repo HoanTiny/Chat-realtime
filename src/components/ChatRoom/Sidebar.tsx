@@ -1,27 +1,8 @@
 import { AntDesignOutlined, LogoutOutlined, SearchOutlined } from '@ant-design/icons'
-import { Avatar, Button, Col, Divider, Input, List, Row, Skeleton, Typography } from 'antd'
+import { Avatar, Button, Col, Input, List, Row, Typography } from 'antd'
 // import React, { useState } from 'react'
-import { FillIcon, ChatIcon, VideoCallIcon, MusicIcon, SentIcon } from '../Icon'
-import { useEffect, useState } from 'react'
-import sidebarStyles from './Sidebar.module.scss'
-
-import InfiniteScroll from 'react-infinite-scroll-component'
-interface DataType {
-  gender?: string
-  name: {
-    title?: string
-    first?: string
-    last?: string
-  }
-  email?: string
-  picture: {
-    large?: string
-    medium?: string
-    thumbnail?: string
-  }
-  nat?: string
-  loading: boolean
-}
+import { ChatIcon, FillIcon, MusicIcon, VideoCallIcon } from '../Icon'
+import RoomList from './RoomList'
 
 const dataIcon = [
   {
@@ -48,28 +29,6 @@ const Sidebar: React.FC = () => {
   //     setSelectedItemId(id)
   //   }
 
-  const [loading, setLoading] = useState(false)
-  const [data, setData] = useState<DataType[]>([])
-
-  const loadMoreData = () => {
-    if (loading) {
-      return
-    }
-    setLoading(true)
-    fetch('https://randomuser.me/api/?results=10&inc=name,gender,email,nat,picture&noinfo')
-      .then((res) => res.json())
-      .then((body) => {
-        setData([...data, ...body.results])
-        setLoading(false)
-      })
-      .catch(() => {
-        setLoading(false)
-      })
-  }
-
-  useEffect(() => {
-    loadMoreData()
-  }, [])
   return (
     <Row
       style={{
@@ -140,6 +99,7 @@ const Sidebar: React.FC = () => {
         style={{
           display: 'flex',
           flexDirection: 'column',
+          alignItems: 'center',
           textAlign: 'center',
           padding: '10px',
           boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px'
@@ -156,47 +116,10 @@ const Sidebar: React.FC = () => {
           placeholder='Search'
           prefix={<SearchOutlined />}
           variant='filled'
-          style={{ width: '291px', borderRadius: '12px' }}
+          style={{ width: '90%', borderRadius: '12px' }}
         />
 
-        <div
-          id='scrollableDiv'
-          className={sidebarStyles['item-list_chat']}
-          style={{
-            height: '85vh',
-            overflow: 'auto',
-            padding: '0 16px'
-            // border: '1px solid rgba(140, 140, 140, 0.35)'
-          }}
-        >
-          <InfiniteScroll
-            dataLength={data.length}
-            next={loadMoreData}
-            hasMore={data.length < 50}
-            loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
-            endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
-            scrollableTarget='scrollableDiv'
-          >
-            <List
-              dataSource={data}
-              renderItem={(item) => (
-                <List.Item key={item.email} style={{ textAlign: 'left' }}>
-                  <List.Item.Meta
-                    avatar={<Avatar src={item.picture.large} />}
-                    title={<a href='https://ant.design'>{item.name.last}</a>}
-                    description='you: See you tomorrow!'
-                  />
-                  <div>
-                    <div>16:45</div>
-                    <div>
-                      <SentIcon />
-                    </div>
-                  </div>
-                </List.Item>
-              )}
-            />
-          </InfiniteScroll>
-        </div>
+        <RoomList />
       </Col>
     </Row>
   )
