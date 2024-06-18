@@ -5,8 +5,27 @@ import React from 'react'
 import imgaeAnt from '~/assets/img/LoginArt.png'
 import logoStyles from './Login.module.scss'
 import { FaceBookIcon, GoogleIcon } from '../Icon'
+import { signInWithPopup, onAuthStateChanged } from 'firebase/auth'
+
+import { auth, fbProvider } from '../../firebase/confg'
+import { useNavigate } from 'react-router-dom'
+
 const Login: React.FC = () => {
   const [form] = Form.useForm()
+  const navigate = useNavigate()
+  const handleFbLogin = async () => {
+    signInWithPopup(auth, fbProvider)
+  }
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      navigate('/')
+      console.log(`user`, user)
+    } else {
+      // User is signed out
+      // ...
+    }
+  })
   return (
     <>
       <Flex align='center' justify='center'>
@@ -88,7 +107,7 @@ const Login: React.FC = () => {
                   <Button
                     type='primary'
                     size='large'
-                    href='/auth/google'
+                    // href='/auth/google'
                     style={{
                       background: '#F3F9FA',
                       borderColor: '#F3F9FA',
@@ -96,9 +115,10 @@ const Login: React.FC = () => {
                       borderRadius: '12px',
                       height: '40px'
                     }}
+                    onClick={handleFbLogin}
                   >
                     <FaceBookIcon />
-                    Login with FaceBook
+                    Login with Facebook
                   </Button>
                 </Flex>
               </Col>

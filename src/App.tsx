@@ -1,12 +1,22 @@
-import "./App.css";
-import Login from "./components/Login";
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import './App.css'
+import Login from './components/Login'
+import ChatRoom from './components/ChatRoom/ChatRoom'
+import AuthProvider from './Context/AuthProvider'
 
 function App() {
   return (
     <>
-      <Login />
+      <BrowserRouter>
+        <AuthProvider>
+          <Routes>
+            <Route path='/login' element={<Login />} />
+            <Route path='/' element={<ChatRoom />} />
+          </Routes>
+        </AuthProvider>
+      </BrowserRouter>
     </>
-  );
+  )
 }
 
-export default App;
+export default App
