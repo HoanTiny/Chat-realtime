@@ -1,6 +1,8 @@
 import { UserAddOutlined } from '@ant-design/icons'
 import { Avatar, Button, Form, Input, Tooltip } from 'antd'
 import styled from 'styled-components'
+import Message from './Message'
+import { AttachIcon } from '../Icon'
 
 const HeaderStyled = styled.div`
   display: flex;
@@ -8,10 +10,7 @@ const HeaderStyled = styled.div`
   height: 56px;
   padding: 0 16px;
   align-items: center;
-  border-bottom: 1px solid #a1a1a1;
-  box-shadow:
-    rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
-    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  border-bottom: 1px solid #eee;
 
   .header {
     &__info {
@@ -35,12 +34,38 @@ const ButtonGroupStyled = styled.div`
   display: flex;
   align-items: center;
 `
-const ContentStyled = styled.div``
-const MessageListStyled = styled.div``
+const WrapperStyled = styled.div`
+  height: 100vh;
+`
+
+const ContentStyled = styled.div`
+  height: calc(100% - 56px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+`
+const FormStyled = styled(Form)`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgb(230, 230, 230);
+  height: 48px;
+  padding: 0 18px;
+  .ant-form-item {
+    flex: 1;
+    margin-bottom: 0;
+  }
+`
+
+const MessageListStyled = styled.div`
+  padding: 21px;
+  height: calc(100% - 56px -48px);
+  overflow-y: auto;
+`
 
 function ChatWindow() {
   return (
-    <div>
+    <WrapperStyled>
       <HeaderStyled>
         <div className='header__info'>
           <p className='title'>Room 1</p>
@@ -72,15 +97,84 @@ function ChatWindow() {
       </HeaderStyled>
 
       <ContentStyled>
-        <MessageListStyled></MessageListStyled>
-        <Form>
+        <MessageListStyled>
+          <Message
+            text='Hello! Have you seen my backpack anywhere in office?'
+            photoURL='null'
+            createAt='10-4-2024'
+            displayName='Hoax'
+          />
+          <Message
+            text='Hello! Have you seen my backpack anywhere in office?'
+            photoURL='null'
+            createAt='10-4-2024'
+            displayName='Hoax'
+          />
+          <Message
+            text='Hello! Have you seen my backpack anywhere in office?'
+            photoURL='null'
+            createAt='10-4-2024'
+            displayName='Hoax'
+          />
+          <Message
+            text='Hello! Have you seen my backpack anywhere in office?'
+            photoURL='null'
+            createAt='10-4-2024'
+            displayName='Hoax'
+          />
+          <Message
+            text='Hello! Have you seen my backpack anywhere in office?'
+            photoURL='null'
+            createAt='10-4-2024'
+            displayName='Hoax'
+          />
+          <Message
+            text='Hello! Have you seen my backpack anywhere in office?'
+            photoURL='null'
+            createAt='10-4-2024'
+            displayName='Hoax'
+          />
+          <Message
+            text='Hello! Have you seen my backpack anywhere in office?'
+            photoURL='null'
+            createAt='10-4-2024'
+            displayName='Hoax'
+          />
+          <Message
+            text='Hello! Have you seen my backpack anywhere in office?'
+            photoURL='null'
+            createAt='10-4-2024'
+            displayName='Hoax'
+          />
+        </MessageListStyled>
+        <FormStyled>
+          <Button type='text'>
+            <AttachIcon />
+          </Button>
           <Form.Item>
-            <Input />
+            <Input
+              variant='borderless'
+              autoComplete='off'
+              placeholder='Type your message here.. '
+              style={{
+                backgroundColor: '#FAFAFA',
+                margin: '0 12px',
+                height: '36px'
+              }}
+            />
           </Form.Item>
-          <Button>Gửi</Button>
-        </Form>
+          <Button
+            type='text'
+            style={{
+              color: '#27AE60',
+              fontSize: '16px'
+            }}
+          >
+            Send message
+          </Button>
+        </FormStyled>
       </ContentStyled>
-    </div>
+    </WrapperStyled>
   )
 }
 

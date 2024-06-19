@@ -1,8 +1,10 @@
+import React, { useEffect, useState } from 'react'
 import { AntDesignOutlined, LogoutOutlined, SearchOutlined } from '@ant-design/icons'
 import { Avatar, Button, Col, Input, List, Row, Typography } from 'antd'
-// import React, { useState } from 'react'
 import { ChatIcon, FillIcon, MusicIcon, VideoCallIcon } from '../Icon'
 import RoomList from './RoomList'
+import { collection, onSnapshot } from 'firebase/firestore' // Import Firestore functions
+import { auth, db } from '~/firebase/confg'
 
 const dataIcon = [
   {
@@ -24,11 +26,21 @@ const dataIcon = [
 ]
 
 const Sidebar: React.FC = () => {
-  //   const [selectedItemId, setSelectedItemId] = useState<number | null>(null)
-  //   const handleItemClick = (id: number) => {
-  //     setSelectedItemId(id)
-  //   }
+  const [user, setUser] = useState<object>([])
 
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, 'users'), (snapshot) => {
+      const roomsData = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data()
+      }))
+      setUser(roomsData)
+    })
+
+    // Clean up the listener when the component unmounts
+    return () => unsubscribe()
+  }, [])
+  console.log(`rooms`, user)
   return (
     <Row
       style={{
@@ -36,7 +48,7 @@ const Sidebar: React.FC = () => {
       }}
     >
       <Col
-        span={4}
+        span={3}
         style={{
           display: 'flex',
           flexDirection: 'column',
@@ -46,12 +58,13 @@ const Sidebar: React.FC = () => {
         }}
       >
         <Avatar
-          size={40}
+          size={{ xs: 10, md: 20, lg: 20, xl: 25, xxl: 40 }}
           icon={<AntDesignOutlined />}
           style={{
             margin: '21px 0'
           }}
         />
+        <Typography.Text className='username'>ABC</Typography.Text>
 
         <List
           itemLayout='horizontal'
@@ -61,17 +74,13 @@ const Sidebar: React.FC = () => {
           }}
           renderItem={(item) => (
             <List.Item
-              //   onClick={() => handleItemClick(item.id)}
               style={{
-                //   backgroundColor: item.id === selectedItemId ? '#27AE60' : '#FAFAFA',
                 cursor: 'pointer',
-                //   borderRadius: '50%',
+
                 width: '42px',
                 height: '42px',
                 marginBottom: '10px',
-                //   display: 'flex',
-                //   justifyContent: 'center',
-                //   alignItems: 'center'
+
                 border: 'none',
                 textAlign: 'center'
               }}
@@ -90,19 +99,19 @@ const Sidebar: React.FC = () => {
           )}
         />
 
-        <Button danger>
+        <Button danger onClick={() => auth.signOut()}>
           <LogoutOutlined />
         </Button>
       </Col>
       <Col
-        span={20}
+        span={21}
         style={{
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           textAlign: 'center',
           padding: '10px',
-          boxShadow: 'rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px'
+          boxShadow: 'rgba(0, 0, 0, 0.02) 1.95px 1.95px 2.6px'
         }}
       >
         <Typography.Title

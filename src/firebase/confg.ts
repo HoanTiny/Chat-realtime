@@ -3,6 +3,9 @@ import { getAnalytics } from 'firebase/analytics'
 import { initializeApp } from 'firebase/app'
 import { getAuth, FacebookAuthProvider } from 'firebase/auth'
 import firebase from 'firebase/compat/app'
+
+import 'firebase/firestore'
+import { getFirestore } from 'firebase/firestore'
 const firebaseConfig = {
   apiKey: 'AIzaSyD7JWy3XtGOmoo2pu41THao2JkbBvabmNQ',
   authDomain: 'chat-app-6a751.firebaseapp.com',
@@ -16,8 +19,9 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig)
 const analytics = getAnalytics(app)
+const db = getFirestore(app)
 const auth = getAuth(app)
 export const fbProvider = new FacebookAuthProvider()
 // fbProvider.addScope('email')
-export { analytics, app, auth }
+export { analytics, app, auth, db }
 export default firebase

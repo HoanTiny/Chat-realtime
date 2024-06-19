@@ -52,7 +52,7 @@ const RoomList: React.FC = () => {
       id='scrollableDiv'
       className={sidebarStyles['item-list_chat']}
       style={{
-        height: '85vh',
+        height: '82vh',
         width: '100%',
         overflow: 'auto',
         padding: '0 16px'

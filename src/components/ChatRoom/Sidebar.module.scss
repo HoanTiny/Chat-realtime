@@ -1,7 +1,14 @@
 .item-list_chat {
   margin-top: 20px;
   &::-webkit-scrollbar {
-    width: 8px;
+    width: 4px;
+    display: none;
+  }
+
+  &:hover {
+    &::-webkit-scrollbar {
+      display: block;
+    }
   }
 
   /* Track */
@@ -16,8 +23,8 @@
     border-radius: 6px;
   }
 
-  /* Handle on hover */
-  &::-webkit-scrollbar-thumb:hover {
-    background: #b30000;
-  }
+  // /* Handle on hover */
+  // &::-webkit-scrollbar-thumb:hover {
+  //   // background: #b30000;
+  // }
 }

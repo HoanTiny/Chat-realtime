@@ -1,12 +1,13 @@
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons'
 import { Button, Col, Flex, Form, Input, Row } from 'antd'
 import Title from 'antd/es/typography/Title'
+import { getAdditionalUserInfo, signInWithPopup } from 'firebase/auth'
 import React from 'react'
 import imgaeAnt from '~/assets/img/LoginArt.png'
-import logoStyles from './Login.module.scss'
 import { FaceBookIcon, GoogleIcon } from '../Icon'
-import { signInWithPopup } from 'firebase/auth'
+import logoStyles from './Login.module.scss'
 
+import { addDocument } from '~/firebase/services'
 import { auth, fbProvider } from '../../firebase/confg'
 // import { useNavigate } from 'react-router-dom'
 
@@ -14,7 +15,19 @@ const Login: React.FC = () => {
   const [form] = Form.useForm()
   // const navigate = useNavigate()
   const handleFbLogin = async () => {
-    signInWithPopup(auth, fbProvider)
+    const data = await signInWithPopup(auth, fbProvider)
+    const result = await getAdditionalUserInfo(data)
+    console.log(`data`, result)
+
+    if (result?.isNewUser === false) {
+      addDocument('users', {
+        displayName: result?.profile?.name,
+        email: result?.profile?.email,
+        photoURL: result?.profile?.picture,
+        uid: result?.profile?.id,
+        providerId: result?.providerId
+      })
+    }
   }
 
   // onAuthStateChanged(auth, (user) => {

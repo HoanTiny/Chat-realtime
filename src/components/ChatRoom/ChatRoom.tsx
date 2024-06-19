@@ -7,13 +7,13 @@ const ChatRoom: React.FC = () => {
   return (
     <Row
       style={{
-        minHeight: '100vh'
+        height: '97vh'
       }}
     >
-      <Col xs={{ span: 5 }} lg={{ span: 6 }}>
+      <Col xs={{ span: 5 }} lg={{ span: 6 }} style={{ height: '100%' }}>
         <Sidebar />
       </Col>
-      <Col xs={{ span: 5 }} lg={{ span: 18 }}>
+      <Col xs={{ span: 5 }} lg={{ span: 18 }} style={{ height: '100%' }}>
         <ChatWindow />
       </Col>
     </Row>
