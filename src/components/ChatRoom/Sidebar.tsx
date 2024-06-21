@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import { AntDesignOutlined, LogoutOutlined, SearchOutlined } from '@ant-design/icons'
+import { LogoutOutlined, SearchOutlined } from '@ant-design/icons'
 import { Avatar, Button, Col, Input, List, Row, Typography } from 'antd'
+import React, { useContext } from 'react'
+import { AuthContext } from '~/Context/AuthProvider'
+import { auth } from '~/firebase/confg'
 import { ChatIcon, FillIcon, MusicIcon, VideoCallIcon } from '../Icon'
 import RoomList from './RoomList'
-import { collection, onSnapshot } from 'firebase/firestore' // Import Firestore functions
-import { auth, db } from '~/firebase/confg'
 
 const dataIcon = [
   {
@@ -26,21 +26,8 @@ const dataIcon = [
 ]
 
 const Sidebar: React.FC = () => {
-  const [user, setUser] = useState<object>([])
-
-  useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, 'users'), (snapshot) => {
-      const roomsData = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data()
-      }))
-      setUser(roomsData)
-    })
-
-    // Clean up the listener when the component unmounts
-    return () => unsubscribe()
-  }, [])
-  console.log(`rooms`, user)
+  const data = useContext(AuthContext)
+  console.log(`data`, data)
   return (
     <Row
       style={{
@@ -59,12 +46,13 @@ const Sidebar: React.FC = () => {
       >
         <Avatar
           size={{ xs: 10, md: 20, lg: 20, xl: 25, xxl: 40 }}
-          icon={<AntDesignOutlined />}
+          src={data.user?.photoURL}
           style={{
             margin: '21px 0'
           }}
-        />
-        <Typography.Text className='username'>ABC</Typography.Text>
+        >
+          {data.user?.photoURL ? '' : data.user?.displayName?.charAt(0)?.toUpperCase()}
+        </Avatar>
 
         <List
           itemLayout='horizontal'

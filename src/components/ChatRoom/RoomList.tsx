@@ -1,51 +1,65 @@
-import { Avatar, Button, Divider, List, Skeleton } from 'antd'
-import React from 'react'
+import { Button, Divider, List, Skeleton } from 'antd'
+import React, { ReactNode, useContext } from 'react'
 // import React, { useState } from 'react'
 import { useEffect, useState } from 'react'
 import { SentIcon } from '../Icon'
 import sidebarStyles from './Sidebar.module.scss'
 
 import InfiniteScroll from 'react-infinite-scroll-component'
+import { AppContext } from '~/Context/AppProvider'
 
 interface DataType {
-  gender?: string
-  name: {
-    title?: string
-    first?: string
-    last?: string
-  }
-  email?: string
-  picture: {
-    large?: string
-    medium?: string
-    thumbnail?: string
-  }
-  nat?: string
-  loading: boolean
+  [x: string]: ReactNode
+  id: string
 }
 const RoomList: React.FC = () => {
+  // const { user } = useContext(AuthContext)
+  // const uid = user?.uid ?? ''
   const [loading, setLoading] = useState(false)
-  const [data, setData] = useState<DataType[]>([])
+  const [data, setData] = useState<DataType[]>([] as DataType[])
 
-  const loadMoreData = () => {
+  /**
+   *
+   * {
+   * name: 'room name',
+   *
+   * description: 'room description',
+   * members: ['uid1', 'uid2', 'uid3'],
+   * }
+   *
+   *
+   */
+
+  // const roomCondition = useMemo(() => {
+  //   return {
+  //     fieldName: 'members',
+  //     operator: 'array-contains' as WhereFilterOp,
+  //     compareValue: uid.toString()
+  //   }
+  // }, [uid])
+
+  // const rooms = useFireStore('rooms', roomCondition)
+  const { rooms, setIsAddRoomVisible } = useContext(AppContext)
+
+  console.log(`rooms`, rooms)
+  const loadMoreData = async () => {
     if (loading) {
       return
     }
     setLoading(true)
-    fetch('https://randomuser.me/api/?results=10&inc=name,gender,email,nat,picture&noinfo')
-      .then((res) => res.json())
-      .then((body) => {
-        setData([...data, ...body.results])
-        setLoading(false)
-      })
-      .catch(() => {
-        setLoading(false)
-      })
+    // set rooms to datas
+    await setData(rooms.map((room) => ({ ...room, id: room.id.toString() })))
+    setLoading(false)
   }
 
   useEffect(() => {
     loadMoreData()
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rooms])
+
+  const hanldeAddRoom = () => {
+    setIsAddRoomVisible(true)
+  }
 
   return (
     <div
@@ -62,24 +76,20 @@ const RoomList: React.FC = () => {
       <InfiniteScroll
         dataLength={data.length}
         next={loadMoreData}
-        hasMore={data.length < 50}
+        hasMore={data.length < data.length}
         loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
         endMessage={
           <Divider plain>
-            <Button>Thêm phòng Room 😂</Button>
+            <Button onClick={hanldeAddRoom}>Thêm phòng Room 😂</Button>
           </Divider>
         }
         scrollableTarget='scrollableDiv'
       >
         <List
-          dataSource={data}
+          dataSource={rooms}
           renderItem={(item) => (
-            <List.Item key={item.email} style={{ textAlign: 'left' }}>
-              <List.Item.Meta
-                avatar={<Avatar src={item.picture.large} />}
-                title={<a href='https://ant.design'>{item.name.last}</a>}
-                // description='you: See you tomorrow!'
-              />
+            <List.Item key={item.id} style={{ textAlign: 'left' }}>
+              <List.Item.Meta title={<a href='https://ant.design'>{item.name}</a>} />
               <div>
                 <div>16:45</div>
                 <div>
@@ -90,6 +100,11 @@ const RoomList: React.FC = () => {
           )}
         />
       </InfiniteScroll>
+      <div>
+        {/* {rooms.map((room) => (
+        <div key={room.id}>{room.name}</div>
+      ))} */}
+      </div>
     </div>
   )
 }

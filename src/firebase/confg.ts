@@ -1,11 +1,11 @@
 // Import the functions you need from the SDKs you need
 import { getAnalytics } from 'firebase/analytics'
 import { initializeApp } from 'firebase/app'
-import { getAuth, FacebookAuthProvider } from 'firebase/auth'
+import { getAuth, FacebookAuthProvider, connectAuthEmulator } from 'firebase/auth'
 import firebase from 'firebase/compat/app'
 
 import 'firebase/firestore'
-import { getFirestore } from 'firebase/firestore'
+import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore'
 const firebaseConfig = {
   apiKey: 'AIzaSyD7JWy3XtGOmoo2pu41THao2JkbBvabmNQ',
   authDomain: 'chat-app-6a751.firebaseapp.com',
@@ -21,6 +21,10 @@ const app = initializeApp(firebaseConfig)
 const analytics = getAnalytics(app)
 const db = getFirestore(app)
 const auth = getAuth(app)
+connectAuthEmulator(auth, 'http://127.0.0.1:9099')
+if (window.location.hostname === 'localhost') {
+  connectFirestoreEmulator(db, '127.0.0.1', 8080)
+}
 export const fbProvider = new FacebookAuthProvider()
 // fbProvider.addScope('email')
 export { analytics, app, auth, db }

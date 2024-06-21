@@ -17,14 +17,14 @@ const Login: React.FC = () => {
   const handleFbLogin = async () => {
     const data = await signInWithPopup(auth, fbProvider)
     const result = await getAdditionalUserInfo(data)
-    console.log(`data`, result)
+    console.log(`data`, data, result)
 
-    if (result?.isNewUser === false) {
+    if (result?.isNewUser) {
       addDocument('users', {
         displayName: result?.profile?.name,
         email: result?.profile?.email,
         photoURL: result?.profile?.picture,
-        uid: result?.profile?.id,
+        uid: data?.user?.uid,
         providerId: result?.providerId
       })
     }
