@@ -74,7 +74,7 @@ const RoomList: React.FC = () => {
 
   useEffect(() => {
     loadMoreData()
-    console.log(`rooms`, rooms)
+    // console.log(`rooms`, rooms)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rooms])
 
@@ -133,9 +133,6 @@ const RoomList: React.FC = () => {
 
   const message = useFireStore<MessageData>('messages', condition)
   const lastMessage = message[message.length - 1]
-  setTimeout(() => {
-    console.log('check', lastMessage)
-  }, 1000)
 
   return (
     <div

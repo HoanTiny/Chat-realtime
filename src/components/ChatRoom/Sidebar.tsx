@@ -27,7 +27,7 @@ const dataIcon = [
 
 const Sidebar: React.FC = () => {
   const data = useContext(AuthContext)
-  console.log(`data`, data)
+  // console.log(`data`, data)
   return (
     <Row
       style={{

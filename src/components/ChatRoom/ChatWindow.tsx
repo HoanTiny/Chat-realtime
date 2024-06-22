@@ -113,9 +113,6 @@ function ChatWindow() {
     form.resetFields(['message'])
 
     // focus to input again after submit
-    console.log(98765, inputRef.current)
-
-    // focus to input again after submit
     if (inputRef?.current) {
       setTimeout(() => {
         inputRef.current!.focus()

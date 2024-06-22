@@ -246,7 +246,7 @@ const InviteMemberModal: React.FC = () => {
     return users
   }
 
-  console.log('Value', value)
+  // console.log('Value', value)
 
   return (
     <div>
