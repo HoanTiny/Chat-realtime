@@ -1,12 +1,16 @@
 import { Avatar, Typography } from 'antd'
-import React from 'react'
+import { formatRelative } from 'date-fns'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
-
+import { AuthContext } from '~/Context/AuthProvider'
 interface Props {
   text: string
   displayName: string
-  createAt: string
+  createAt: {
+    seconds: number // Assuming seconds is of type number
+  }
   photoURL: string
+  uid: string
 }
 
 const WrapperStyled = styled.div`
@@ -52,16 +56,35 @@ const ContentStyled = styled.div`
   background: #f4f4f7;
 `
 
-const Message: React.FC<Props> = ({ text, displayName, createAt, photoURL }) => {
+function formatDate(seconds: number) {
+  let formattedDate = ''
+
+  if (seconds) {
+    formattedDate = formatRelative(new Date(seconds * 1000), new Date())
+
+    formattedDate = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1)
+  }
+
+  return formattedDate
+}
+
+const Message: React.FC<Props> = ({ text, displayName, createAt, photoURL, uid }) => {
+  const { user } = useContext(AuthContext)
+  const currentUser = user?.uid
+  const flexDirectionStyle = currentUser === uid ? 'row-reverse' : 'initial'
   return (
-    <WrapperStyled>
-      <Avatar src={photoURL}>A</Avatar>
+    <WrapperStyled
+      style={{
+        flexDirection: flexDirectionStyle
+      }}
+    >
+      <Avatar src={photoURL}>{photoURL ? '' : displayName?.charAt(0)?.toUpperCase()}</Avatar>
       <MessageUser className='message__user'>
         <Typography.Text className='author'>{displayName}</Typography.Text>
         <ContentStyled>
           <Typography.Text className='content'>{text}</Typography.Text>
 
-          <Typography.Text className='date'>{createAt}</Typography.Text>
+          <Typography.Text className='date'>{formatDate(createAt?.seconds)}</Typography.Text>
         </ContentStyled>
       </MessageUser>
     </WrapperStyled>

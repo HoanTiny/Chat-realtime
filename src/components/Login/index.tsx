@@ -7,7 +7,7 @@ import imgaeAnt from '~/assets/img/LoginArt.png'
 import { FaceBookIcon, GoogleIcon } from '../Icon'
 import logoStyles from './Login.module.scss'
 
-import { addDocument } from '~/firebase/services'
+import { addDocument, generateKeywords } from '~/firebase/services'
 import { auth, fbProvider } from '../../firebase/confg'
 // import { useNavigate } from 'react-router-dom'
 
@@ -20,25 +20,23 @@ const Login: React.FC = () => {
     console.log(`data`, data, result)
 
     if (result?.isNewUser) {
+      const profile = result?.profile as {
+        name: string
+        email: string
+        picture: string
+      }
+
       addDocument('users', {
         displayName: result?.profile?.name,
         email: result?.profile?.email,
         photoURL: result?.profile?.picture,
         uid: data?.user?.uid,
-        providerId: result?.providerId
+        providerId: result?.providerId,
+        keywords: generateKeywords(profile.name)
       })
     }
   }
 
-  // onAuthStateChanged(auth, (user) => {
-  //   if (user) {
-  //     navigate('/')
-  //     console.log(`user`, user)
-  //   } else {
-  //     // User is signed out
-  //     // ...
-  //   }
-  // })
   return (
     <>
       <Flex align='center' justify='center'>
