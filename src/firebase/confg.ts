@@ -22,7 +22,7 @@ const analytics = getAnalytics(app)
 const db = getFirestore(app)
 const auth = getAuth(app)
 connectAuthEmulator(auth, 'http://127.0.0.1:9099')
-if (window.location.hostname === 'localhost') {
+if (window.location.hostname === 'localhost' || window.location.hostname === 'messenger-fake.vercel.app') {
   connectFirestoreEmulator(db, '127.0.0.1', 8080)
 }
 export const fbProvider = new FacebookAuthProvider()

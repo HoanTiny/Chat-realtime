@@ -162,7 +162,7 @@ const RoomList: React.FC = () => {
           dataSource={rooms}
           renderItem={(item) => (
             <List.Item key={item.id} style={{ textAlign: 'left' }} onClick={() => setSelectedRoomId(item.id)}>
-              <List.Item.Meta title={item.name} description={selectedRoom?.id === item.id ? lastMessage.text : ''} />
+              <List.Item.Meta title={item.name} description={selectedRoom?.id === item.id ? lastMessage?.text : ''} />
               <div>
                 <div>{formatDate(selectedRoom?.id === item.id ? lastMessage?.createdAt?.seconds : 0)}</div>
                 {/* <div>
