@@ -1,11 +1,11 @@
 // Import the functions you need from the SDKs you need
 import { getAnalytics } from 'firebase/analytics'
 import { initializeApp } from 'firebase/app'
-import { getAuth, FacebookAuthProvider, connectAuthEmulator } from 'firebase/auth'
+import { FacebookAuthProvider, getAuth } from 'firebase/auth'
 import firebase from 'firebase/compat/app'
 
 import 'firebase/firestore'
-import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore'
+import { getFirestore } from 'firebase/firestore'
 const firebaseConfig = {
   apiKey: 'AIzaSyD7JWy3XtGOmoo2pu41THao2JkbBvabmNQ',
   authDomain: 'chat-app-6a751.firebaseapp.com',
