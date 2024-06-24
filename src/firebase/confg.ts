@@ -26,7 +26,7 @@ if (window.location.hostname === 'localhost') {
   connectFirestoreEmulator(db, '127.0.0.1', 8080)
 } else {
   connectAuthEmulator(auth, 'https://a0b0-171-244-54-124.ngrok-free.app')
-  connectFirestoreEmulator(db, ' 836a-171-244-54-124.ngrok-free.app', 8080)
+  connectFirestoreEmulator(db, ' 836a-171-244-54-124.ngrok-free.app', 443)
 }
 export const fbProvider = new FacebookAuthProvider()
 // fbProvider.addScope('email')
